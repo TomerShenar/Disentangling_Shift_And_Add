@@ -62,8 +62,9 @@ sys
                                          Q & A
 ************************************************************************
 
-
+***
 Q. What is spectral disentangling, and what is it good for?
+***
 
 Spectral disentangling refers to the simultaneous derivation of orbital parameters of a spectroscopic multiple system and the separation of the composite spectra to the component spectra. 
 In general, the algorithm receives a set of N spectra, as returns as output the orbital parameters and the individual spectra of each component.
@@ -80,13 +81,17 @@ I refer to some of my own projects to illustrate the power of this technique:
 2. Be binaries as black-hole imposters: Shenar et al. 2020, A&A, 639, 6; Bodensteiner et al. 2020, A&A, 641, 43
 3. Wolf-Rayet binaries: Shenar et al. 2019, A&A, 627, 151
 
+***
 Q. What is the technique used here?
+***
 
 Spectral disentangling can be performed either by minimizing a large set of linear equations, or via an iterative procedure. I refer the reader to http://sail.zpf.fer.hr/fdbinary/ for a description and overview of the various methods.
 
 Here, the iterative shift-and-add algorithm is implemented.
 
+***
 Q. How does shift-and-add work?
+***
 
 The shift-and-add technique uses approximations for the component spectra in the i'th iteration, A[i] and B[i], to compute better approximations in the i+1'th iteration.
 
@@ -110,51 +115,84 @@ In principle, the chi2 exploration could be performed on all orbital paramreters
 
 A minimization of chi2(K1, K2) enables the derivation of K1, K2 and their corresponding statistical errors. Once K1, K2 have been derived, the final separation can be performed.
 
-Q. How many spectra are needed for disentangling?
 
+***
+Q. How many spectra are needed for disentangling?
+***
+
+Mathematically, the number of spectra should be larger than the number of components contained in the system if orbital parameters are to be derived. I.e., for a binary, at least three spectra are needed. However, in practice, given the noise, not to mention real-data complications (non-Doppler variability, inhomogeneous normalisation, etc), more data are needed for reliable results. 
+For high-quality (R > ~10K, S/N > ~200) data of reasonably-behaving stars, even 4-5 spectra that sample the Doppler space can suffice.
+For lower quality data (R down to 1-2K, S/N < ~50), typically at least 8-10 spectra are needed. But the exact answer depends on the type of stars, line profiles, RV amplitudes, and necessary accuracy.
+
+And of course: the more the marrier! 
+
+***
 Q. What about the light ratios?
+***
 
 The light ratios determine the final scaling of the disentangled spectra. In principle, this information is not contained (mathematically) in the data; the technique cannot tell whether a star has "intrinsically weak lines" or whether it is diluted. Hence, the user needs to specify the light ratios, which are currently assumed constant throughout the wavelength domain. 
 Luckily, the light ratios only impact the final scaling of the spectra, and have no impact on the results of disentangling. They can therefore be separated from the problem of disentangling.
 
+***
 Q. Do I disentangle specific lines or the entire spectrum?
+***
 
 In principle ,this is up to the user. However, it is strongly encouraged to disentangle individual lines or regions of lines. The method becomes less efficient if large chunks of continuum are included. Moreover, by computing K1, K2 for individual lines, one may obtain independent K1,K2 measurements, which can allow the user to compute weighted means for K1 and K2.
 
+***
 Q. How do I pick the number of iterations Nitr?
+***
 
-This is a non-trivial question, and in truth, no satisfactory general condition could still be found. As a rule-of-thumb, when the RV amplitudes are comparable or larger than the typical widths of the line profiles (set by either rotation or resolution), then tens of iterations suffice. However, when the RV amplitudes are smaller, hundreds or even thousands of iterations may be necessary. 
-The user is urged to make use of the various convergence plots and tests to study this question. For example, the user may want to compare the appearance of the disentangled spectra each X iterations (which is an option in the script), or they may want to investigate how their derived K1, K2 values differ if the iteration number increases.
+This is a non-trivial question, and in truth, no satisfactory general condition could still be found. The answer lies typically between tens to hundreds of iterations, depending mainly on the relation between the line profiles and RV amplitudes. Low RV amplitudes (comparable or lower than resolution element) tend to require hundreds of iterations; for high amplitudes, tens of iterations typically suffice.
+
+A few tips & tricks to explore convergence:
+1. Use the option "PLOTCONV" in the input file to study the convergence of the disentangled spectra as a function of iteration number. Typically, a "kink" can be seen in the log of the convergence plot, and my experience is that this kink represents a good measure for this number.
+2. Use the option "PLOTITR" to compare the disentangled spectra obtained after each N iterations (set by the user). Helps for a visual inspection of the impact; don't forget that the final spectra are scaled by the light ratios! Hence, even small differences can be meaningful for faint companions. Also, the impact on chi2(K1, K2) can be significant, even if the spectra look similar at various iterations.
+
 The number of iterations further depends on the necessary level of accuracy. For example, for very high S/N data, more iterations could make sense, while for low S/N, the differences become rapidly negligible. Similarly, if the secondary is very faint, then small discrepancies can translate into very large differences in its disentangled spectrum, and more iterations may be needed. 
 
+***
 Q. Is it better to derive K1, K2 with disentangling or standard RV measurement methods?
+***
 
 If possible, it is always better to determine at least K1, and if possible also  K2, via RVs, since it will result in much more accurate measurements. This can be done if the different components show different lines, or if one of them strongly dominates (l1 > ~ 90%) over the other. If this is not the case and the lines are constantly blended, then disentangling is the method of choice. Note, however, that typical errors are at least X10 times larger than with RV measurements due to the large freedom in "shaping" the disentangled spectra. 
 
+
+***
 Q. Should I enforce the spectra to lie below the continuum?
+***
 
 The s&a technique is known to often cause "emission wings" and "extended troughs" next to broad absorption lines, and the reason for this is well documented in Quintero 2020, AN, 341, 628. 
-A very simple yet powerful solution is to enforce the components to lie below the continuum, unless the user suspects that specific regions may exhibit emission. The user is therefore encouraged to make use of this option. In the case of emission line stars such as Be stars or Wolf-Rayet stars, this option should only be used in continuum regions or absorption-line regions.
+A very simple yet powerful solution is to enforce the components to lie below the continuum, unless the user suspects that specific regions may exhibit emission. The user is therefore encouraged to make use of this option ("StrictNeg = True" for the relevant components). In the case of emission line stars such as Be stars or Wolf-Rayet stars, this option should only be used in continuum regions or absorption-line regions.
 
+***
 Q. Can I use different datasets (e.g., different instruments)
+***
 
 Yes; the script should be able to handle this, as long as it can read the observations.
 
-
+***
 Q. What if the stars are variable (e.g., pulsations)?
+***
 
 Excellent question. Hopefully, I'll have the time to explore this soon enough. However, as long as the variability does not follow the orbital period, one can expect that it will wash away in the process of shifting-and-adding. 
 
+***
 Q. What about triples? Quadruples? 
+***
 
-The method can be extended to multiple components in a straight-forward manner, as has been in fact used on quadruples (e.g., Shenar et al. 2022, A&A, 665, 148). The current script is designed for binaries only, but a follow-up version will include a module for higher-order multiples 
+The method can be extended to multiple components in a straight-forward manner, as has been in fact used on quadruples (e.g., Shenar et al. 2022, A&A, 665, 148). The current script is designed and tested for binaries only (though some variables are designed for multiples), but a follow-up version will include a module for higher-order multiples 
 
+***
 Q. What is the impact of using wrong orbital parameters (specifically K1, K2) on the disentangled spectra?
+***
 
 While it is tough to provide a single answer here, generally it holds: the brighter the component, the more critical your results would depend on its K-value. For example, consider a binary with the primary contribution 95% and the secondary 5%. You will find that differences of ~5% in the value of K1 could translate into quite substantial differences in the disentangled spectrum of the secondary. In contrast, the disentangled spectra would be very weakly dependent on K2 in this case.
 An important example is when trying to establish whether or not the companion is a star or a compact object. For SB1 systems, adopting a K1 value 5-10% off the "true" value will result in a disentangled spectrum for the secondary which mimics the appearance of the primary. This may look like a star to the inexperienced user. Hence, test how the disentangled spectrum of the secondary varies are values for K1 are altered.
 
+***
 Q. How can I know my results are sensible?
+***
 
 Test, test, test! Try to simulate spectra corresponding to the case of interest, and see how well (or not) the method is able to retrieve the orbital parameters. This is the only way to know for sure whether you can trust the results. 
 
