@@ -54,7 +54,7 @@ specnum = 20
 
 # Mask path
 MaskPath = 'Models/G40000g400v10.vis.rectvmac30vsini200.dat'
-MaskPath2 = 'Models/BG27000g475v2.vis.rectvmac30vsini25.dat'
+MaskPath2 = 'Models/BG27000g425v2.vis.rectvmac30vsini25.dat'
 
 
 
