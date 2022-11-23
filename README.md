@@ -15,9 +15,9 @@ See "input file" for more documentation
 
 Coming up in upcoming version: Higher-order multiples and better handling of nebular contamination. 
 
-#########################
-###Quick instructions:###
-#########################
+#############################################################################################################################
+                                                             Quick instructions
+#############################################################################################################################
 
 To retrieve the files, make a folder in which you want to store the files and type:
 
@@ -56,15 +56,12 @@ sys
 
 7. After setting the relevant options in "Input_disentangle.py", run the script by typing "python disentangle_shift_and_add.py". 
 
-8. If the run was successful, an output directory will be created containing the disentangling spectra stored as: "ADIS_lguess2_K1K2=0.7_87.0_135.0.txt
+8. After a successful execution of the script, an output directory will be created containing the disentangled spectra ADIS and BDIS. The names of the files code the K1, K2 pair for which the separation was performed, a few files documenting the chi2 arrays for K1, K2, and a few figures.
 
-For the script to run,  the script will need corrects paths to the observations were provided, and if the observations are correctly read.
-I tried to make the script relatively flexible (see documentation in script), but it is possible that individual formats will not be read successfuly. The user is encouraged to replace the appropriate reading functions with whatever functions they deem appropriate.
+#############################################################################################################################
+                                                                  Q&A
+#############################################################################################################################
 
-After a successful execution of the script, an output directory will be created containing the disentangled spectra ADIS and BDIS. The names of the files code the K1, K2 pair for which the separation was performed, a few files documenting the chi2 arrays for K1, K2, and a few figures.
-
-
-Q&A:
 
 Q. What is spectral disentangling?
 
