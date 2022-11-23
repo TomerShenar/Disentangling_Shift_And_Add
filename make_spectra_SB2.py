@@ -41,7 +41,7 @@ Gamma = 0.
 # Data properties (band, resolution and sampling, i.e. Dlam, & S2N)
 lamB = 4000.
 lamR = 5000.
-Resolution = 20000.
+Resolution = 15000.
 SamplingFac = 3
 Dlam = (lamB+lamR)/2. /Resolution / SamplingFac
 S2N = 100. 
