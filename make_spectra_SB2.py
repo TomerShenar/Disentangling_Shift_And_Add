@@ -44,7 +44,7 @@ lamR = 5000.
 Resolution = 20000.
 SamplingFac = 3
 Dlam = (lamB+lamR)/2. /Resolution / SamplingFac
-S2N = 50. 
+S2N = 100. 
 
 #Flux ratio, F2_to_ftot 
 Q = 0.3
