@@ -9,9 +9,9 @@
 
 
 
-from Disentangling.disentangle_functions import * 
 from Input_disentangle import *
-    
+from Disentangling.disentangle_functions import * 
+
 ##################################################################
 ####### READING OF DATA --- USER POTENTIALLY NEEDS TO EDIT #######
 ##################################################################
@@ -28,6 +28,18 @@ elif ObsFormat=='FITS':
 ############################################################
 ####### Starts code -- don't touch unless necessary! #######
 ############################################################
+
+
+# Avoid weird errors:
+if PLOTITR and PLOTCONV:
+    print("ERROR: avoid having both PLOTITR and PLOTCONV true")
+    sys.exit("Exit in disentangle_shift_and_add.py")
+if PLOTEXTREMES and PLOTFITS:
+    print("ERROR: avoid having both PLOTEXTREMES and PLOTFITS true")
+    sys.exit("Exit in disentangle_shift_and_add.py")
+if CompNum != 2:
+    print("ERROR: Can't handle more than two components with current version.")
+    sys.exit("Exit in disentangle_shift_and_add.py")
 
 # vector of light ratios l1, l2, l3, l4
 lguessVec = [lguess1] + lguessVec
@@ -164,7 +176,7 @@ if GridDis:
    ScalingNeb = np.ones(len(vrads1))
    kcount_extremeplot = np.argmin(np.abs(K1s - Velo_plot_usrK1_ext)) * len(K2s) + np.argmin(np.abs(K2s - Velo_plot_usrK2_ext))
    kcount_usr = np.argmin(np.abs(K1s - Velo_plot_usrK1)) * len(K2s) + np.argmin(np.abs(K2s - Velo_plot_usrK2))
-   K1, K2 = Grid_disentangling2D(waveRanges, nusdata, CompArr[1], Orbital_Params, K1s, K2s,  ObsSpecs, weights, StrictNeg, PosLimCond, Poslimall, MJDs, phisData,  specnames, Rangestr, StarName, ScalingNeb, Ini='B', ShowItr=False,   InterKind=InterKind, itrnumlim = itrnumlim,   PLOTCONV=PLOTCONV, PLOTITR=PLOTITR,  PLOTEXTREMES=PLOTEXTREMES, PLOTFITS=PLOTFITS, kcount_extremeplot=kcount_extremeplot, linewidExt=linewidExt, CompNum=CompNum, ParbSize=ParbSize, N_Iteration_Plot=N_Iteration_Plot,  NebLines = NebLines, NebFac=1, kcount_usr=kcount_usr)
+   K1, K2 = Grid_disentangling2D(waveRanges, nusdata, CompArr[1], Orbital_Params, K1s, K2s,  ObsSpecs, weights, StrictNeg, PosLimCond, Poslimall, MJDs, phisData,  specnames, Rangestr, StarName, ScalingNeb, Ini='B', ShowItr=False,   InterKind=InterKind, itrnumlim = itrnumlim,   PLOTCONV=PLOTCONV, PLOTITR=PLOTITR,  PLOTEXTREMES=PLOTEXTREMES, PLOTFITS=PLOTFITS, kcount_extremeplot=kcount_extremeplot, linewidExt=linewidExt, CompNum=CompNum, ParbSize=ParbSize, N_Iteration_Plot=N_Iteration_Plot,  NebLines = NebLines, NebFac=1, kcount_usr=kcount_usr, ExtremesFigSize=ExtremesFigSize)
    Orbital_Params['K1'] = K1
    Orbital_Params['K2'] = K2
 else:  
@@ -183,7 +195,7 @@ print("disentangling...., K1, K2:", Orbital_Params['K1'], Orbital_Params['K2'])
 vrads1, vrads2 = v1andv2(nusdata, Orbital_Params)
 itrnumlim=NumItrFinal
 NebSpec = np.zeros(len(wavegridall))
-DisSpecVector, redchi2 = disentangle(np.zeros(len(wavegridall)), vrads1, vrads2,  wavegridall, ObsSpecs, weights, StrictNeg, PosLimCond, Poslimall,  nusdata, Orbital_Params, K1s, K2s, MJDs, phisData, specnames, Rangestr, StarName,  ScalingNeb, NebSpec, Resid=False, Reduce=True, ShowItr=True, Once=True,   InterKind=InterKind, itrnumlim=itrnumlim,   PLOTCONV=PLOTCONV, PLOTITR=PLOTITR,  PLOTEXTREMES=PLOTEXTREMES, PLOTFITS=PLOTFITS, kcount_extremeplot=0, linewidExt=linewidExt, CompNum=CompNum, N_Iteration_Plot=N_Iteration_Plot,  NebLines = NebLines, NebFac=1)
+DisSpecVector, redchi2 = disentangle(np.zeros(len(wavegridall)), vrads1, vrads2,  wavegridall, ObsSpecs, weights, StrictNeg, PosLimCond, Poslimall,  nusdata, Orbital_Params, K1s, K2s, MJDs, phisData, specnames, Rangestr, StarName,  ScalingNeb, NebSpec, Resid=False, Reduce=True, ShowItr=True, Once=True,   InterKind=InterKind, itrnumlim=itrnumlim,   PLOTCONV=PLOTCONV, PLOTITR=PLOTITR,  PLOTEXTREMES=PLOTEXTREMES, PLOTFITS=PLOTFITS, kcount_extremeplot=0, linewidExt=linewidExt, CompNum=CompNum, N_Iteration_Plot=N_Iteration_Plot,  NebLines = NebLines, NebFac=1, ExtremesFigSize=ExtremesFigSize)
 
 
 # These are the final, scaled spectra:
