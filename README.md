@@ -1,9 +1,9 @@
 # Disentangling_Shift_And_Add
 21.11.2022, V1.0;  contact: T.Shenar@uva.nl or tomer.shenar@gmail.com
 
-shift-and-add & grid disentangling, by Tomer Shenar, with contributions from Matthias Fabry & Julia Bodensteiner
+shift-and-add & grid disentangling, written by Tomer Shenar, with contributions from Matthias Fabry & Julia Bodensteiner
 
-Algorithm and examples in Gonzales & Levato 2006, A&A, 448, 283; Shenar et al. 2021, A&A, 639, 6; Shenar et al. 2022, A&A, 665, 148
+Algorithm, examples & tests in Gonzales & Levato 2006, A&A, 448, 283; Shenar et al. 2021, A&A, 639, 6; Shenar et al. 2022, A&A, 665, 148
 
 Current version only applicable for binaries. 
 
@@ -15,22 +15,50 @@ See "input file" for more documentation
 
 Coming up in upcoming version: Higher-order multiples and better handling of nebular contamination. 
 
+#########################
+###Quick instructions:###
+#########################
 
-Quick instructions:
+To retrieve the files, make a folder in which you want to store the files and type:
 
+git clone https://github.com/shtomer/Disentangling_Shift_And_Add.git
 
-For the script to run, the user needs to download three parts:
+The download includes:
 1. "disentangle_shift_and_add.py" is the main code that runs the script. It should not be editted unless you are an experienced user, except perhaps for the first part, where the spectra and dates are read, if needed.
 2. "Input_disentangle.py" is where the user inserts multiple options and parameters for the disentangling procedure. This script is documented and should be filled as instructed in the file.
 3. "disentangle_functions.py" contains the main functions used by the script. Do not edit unless you know what you're doing.
+4. "make_spectra_SB2.py" is a small script that creates mock data of an hypothetical binary with prespecified templates, resolution & S/N (option: nebular contamination)
+5. "2DCont.py" reads a "chi2 output" from the "disentangle_shift_and_add.py" output and produces K1,K2 measurements and a 2D color map.
+6. "plot.py" is a helpful script to easily plot spectra (ascii/fits)
+7. a "Models" directory with a few selected TLUSTY & PoWR models of OB and WR stars, and a HERMES observation of a Be star; for creating mock data.
 
-The user should place the file "disentangle_functions.py" in a directory in which they store typical python libraries in a directory called "Disentangling". For example, on my machine, this file is in: "/Users/tomer/Programmes_and_packages/"
-export PYTHONPATH="/Users/tomer/Programmes_and_packages:$PYTHONPATH"
+Instructions:
 
-To run the script, simply type "python disentangle_shift_and_add.py". You will need to make sure you have the various packages used by the script:
-glob; os; numpy; astropy.io; scipy; pandas; matplotlib; astropy; sys
+1. Place the file "disentangle_functions.py" in a directory in which they store typical python libraries in a directory called "Disentangling". For example, on my machine, this file is in: "/Users/tomer/Programs_and_packages/Disentangling/"
 
-The script will only run properly if the corrects paths to the observations were provided, and if the observations are correctly read.
+2. Add the line PYTHONPATH="/Users/tomer/Programmes_and_packages:$PYTHONPATH" in your .bashrc file in the home directory.
+
+3. Place the "Input_disentangle.py" and "disentangle_shift_and_add.py" in a directory in which you want the analysis to be performed.
+
+4. For the script to work, make sure the following packages are installed (e.g. via pip install):
+glob 
+os 
+numpy 
+astropy
+scipy
+pandas 
+matplotlib
+sys
+
+5. Prepare a folder that contains all spectra for your object. The data could be in ASCII format or FITS format. If FITS, the script will attempt to read the dates from the .fits files. If ASCII, the script will require a file named ObsDat.txt listing the MJDs and file names in the observational data folder. For example, use the "make_spectra_SB2.py" to create such a folder with mock data.
+
+6. Fill out the "Input_disentangle.py" as per instructions. Importantly, the path to the data and data format should be specified, and the orbital parameters should be appropriate (if the results are to make sense).
+
+7. After setting the relevant options in "Input_disentangle.py", run the script by typing "python disentangle_shift_and_add.py". 
+
+8. If the run was successful, an output directory will be created containing the disentangling spectra stored as: "ADIS_lguess2_K1K2=0.7_87.0_135.0.txt
+
+For the script to run,  the script will need corrects paths to the observations were provided, and if the observations are correctly read.
 I tried to make the script relatively flexible (see documentation in script), but it is possible that individual formats will not be read successfuly. The user is encouraged to replace the appropriate reading functions with whatever functions they deem appropriate.
 
 After a successful execution of the script, an output directory will be created containing the disentangled spectra ADIS and BDIS. The names of the files code the K1, K2 pair for which the separation was performed, a few files documenting the chi2 arrays for K1, K2, and a few figures.
