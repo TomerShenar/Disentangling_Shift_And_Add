@@ -124,7 +124,15 @@ Mathematically, the number of spectra should be larger than the number of compon
 For high-quality (R > ~10K, S/N > ~200) data of reasonably-behaving stars, even 4-5 spectra that sample the Doppler space can suffice.
 For lower quality data (R down to 1-2K, S/N < ~50), typically at least 8-10 spectra are needed. But the exact answer depends on the type of stars, line profiles, RV amplitudes, and necessary accuracy.
 
-And of course: the more the marrier! 
+And of course: the more the merrier! 
+
+***
+Why should I choose shift-and-add over other tools (e.g., fd3)?
+***
+
+The shift-and-add technique is a straight-forward algorithm that can be easily tested, controlled, and explored. It operates on wavelength space, and involves very clear assumptions. It is hence an attractive algorithm to work with.
+
+Importantly, multiple studies show that the techqniue yields robust results. We performed extensive comparisons between the shift-and-add algorithm and tools such as fd3 (e.g.,  Shenar et al. 2020, A&A, 639, 6; Bodensteiner et al. 2020, A&A, 641, 43). In most cases, we find highly comparable results, though in some cases, the shift-and-add technique appears to be more robust, at least in comparison to Fourier disentangling. However, the user is invited to compare and test various tools 
 
 ***
 Q. What about the light ratios?
@@ -189,6 +197,12 @@ Q. What is the impact of using wrong orbital parameters (specifically K1, K2) on
 
 While it is tough to provide a single answer here, generally it holds: the brighter the component, the more critical your results would depend on its K-value. For example, consider a binary with the primary contribution 95% and the secondary 5%. You will find that differences of ~5% in the value of K1 could translate into quite substantial differences in the disentangled spectrum of the secondary. In contrast, the disentangled spectra would be very weakly dependent on K2 in this case.
 An important example is when trying to establish whether or not the companion is a star or a compact object. For SB1 systems, adopting a K1 value 5-10% off the "true" value will result in a disentangled spectrum for the secondary which mimics the appearance of the primary. This may look like a star to the inexperienced user. Hence, test how the disentangled spectrum of the secondary varies are values for K1 are altered.
+
+***
+Q. What about very broad lines (e.g. Balmer lines)
+***
+
+Disentangling becomes more challenging the more the lines are heavily blended. A typical example is the Balmer lines. The shift-and-add technique, as programmed here, is generally successful even in retrieving the Balmer lines, though they would typically show larger discrepancies compared to other lines. For heavily blended lines, however, the Balmer lines may be strongly under/overestimated. The user is encouraged to test how well the script can disentangle these lines in corresponding mock data, and judge for themselves whether they should use information stored in the Balmer lines. 
 
 ***
 Q. How can I know my results are sensible?
