@@ -17,13 +17,12 @@ from astropy.table import Table
 import sys
 from matplotlib.ticker import (MultipleLocator, AutoMinorLocator)
 import matplotlib.pylab as pylab
-params = {'legend.fontsize': 'x-large',
-          'figure.figsize': (7, 8),
-         'axes.labelsize': 'x-large',
-         'axes.titlesize':'large',
-         'xtick.labelsize':'x-large',
-         'ytick.labelsize':'x-large'}
-pylab.rcParams.update(params)
+#params = {'legend.fontsize': 'x-large',
+         #'axes.labelsize': 'x-large',
+         #'axes.titlesize':'large',
+         #'xtick.labelsize':'x-large',
+         #'ytick.labelsize':'x-large'}
+#pylab.rcParams.update(params)
 legsize = 9
 alphaleg = 0.
 locleg='lower left'
@@ -260,9 +259,10 @@ def Reduce_Waves(waves, nusdata, Orbital_Params, K1max, K2max):
     return WaveCalcCond
 
 
-def Prepare_Plot_Extremes(fig, axes, waves, Ashift, Bshift, Nebshift, ObsSpec, specsum, specname, phi, MJD, pltExtyMin, pltExtyMax, StarName, Rangestr, K1now,  K2now, linewidth=3, NebLines=False, Panel=0, linewidExt=3):
+def Prepare_Plot_Extremes(fig, axes, waves, Ashift, Bshift, Nebshift, ObsSpec, specsum, specname, phi, MJD, pltExtyMin, pltExtyMax, StarName, Rangestr, K1now,  K2now, linewidth=3, NebLines=False, Panel=0, linewidExt=3, ExtremesFigSize=(7,8)):
+    print(linewidth)
     axes[Panel].plot(waves, Ashift, label='Prim Dis.', color='red', linestyle = 'dotted', linewidth=linewidExt)
-    axes[Panel].plot(waves, Bshift, label='Sec. Dis.', color='green')   
+    axes[Panel].plot(waves, Bshift, label='Sec. Dis.', color='green', linewidth=linewidExt)   
     if NebLines:
         axes[Panel].plot(waves, Nebshift, label='Nebular Dis.', color='purple')               
     axes[Panel].plot(waves, ObsSpec, color='blue', label=str(round(MJD,0)) + r', $\varphi=$' + str(round(phi, 2)))
@@ -286,7 +286,7 @@ def Prepare_Plot_Extremes(fig, axes, waves, Ashift, Bshift, Nebshift, ObsSpec, s
         plt.show()    
             
 # Calculate difference 
-def CalcDiffs(DisSpecVector, vrA, vrB,  waves, ObsSpecs, nusdata,  Orbital_Params, K1s, K2s, MJDs, phis, specnames, Rangestr, StarName, ScalingNeb, Resid=False, Reduce=False, ShowItr=False, PLOTEXTREMES=False, PLOTFITS=False, kcount_extremeplot=0,  linewidExt=3, CompNum=2, NebLines = False, NebFac=1, S2NpixelRange=5, kcount_usr=0):
+def CalcDiffs(DisSpecVector, vrA, vrB,  waves, ObsSpecs, nusdata,  Orbital_Params, K1s, K2s, MJDs, phis, specnames, Rangestr, StarName, ScalingNeb, Resid=False, Reduce=False, ShowItr=False, PLOTEXTREMES=False, PLOTFITS=False, kcount_extremeplot=0,  linewidExt=3, CompNum=2, NebLines = False, NebFac=1, S2NpixelRange=5, kcount_usr=0, ExtremesFigSize=(7,8)):
     global kcount, k1, k2, DoFs, K1now, K2now
     RVExtmaxInd, RVExtminInd = np.argmax(vrA), np.argmin(vrA)     
     A, B, NebSpec = DisSpecVector
@@ -343,10 +343,10 @@ def CalcDiffs(DisSpecVector, vrA, vrB,  waves, ObsSpecs, nusdata,  Orbital_Param
         if PLOTEXTREMES:
             if kcount==kcount_extremeplot:
                 if ind==min(RVExtminInd, RVExtmaxInd):
-                    fig, axes = plt.subplots(nrows=2, ncols=1)
-                    Prepare_Plot_Extremes(fig, axes, waves[WaveCalcCond], Ashift, Bshift, Nebshift, ObsSpec, specsum, specnames[ind], phis[ind], MJDs[ind], pltExtyMin, pltExtyMax, StarName, Rangestr, K1now,  K2now, linewidth=linewidExt, NebLines=NebLines, Panel=0)                   
+                    fig, axes = plt.subplots(nrows=2, ncols=1, figsize=ExtremesFigSize)
+                    Prepare_Plot_Extremes(fig, axes, waves[WaveCalcCond], Ashift, Bshift, Nebshift, ObsSpec, specsum, specnames[ind], phis[ind], MJDs[ind], pltExtyMin, pltExtyMax, StarName, Rangestr, K1now,  K2now, linewidth=linewidExt, NebLines=NebLines, ExtremesFigSize=ExtremesFigSize, Panel=0)                   
                 elif ind==max(RVExtminInd, RVExtmaxInd):
-                    Prepare_Plot_Extremes(fig, axes, waves[WaveCalcCond], Ashift, Bshift, Nebshift, ObsSpec, specsum, specnames[ind], phis[ind], MJDs[ind], pltExtyMin, pltExtyMax, StarName, Rangestr, K1now,  K2now, linewidth=linewidExt, NebLines=NebLines,  Panel=1)  
+                    Prepare_Plot_Extremes(fig, axes, waves[WaveCalcCond], Ashift, Bshift, Nebshift, ObsSpec, specsum, specnames[ind], phis[ind], MJDs[ind], pltExtyMin, pltExtyMax, StarName, Rangestr, K1now,  K2now, linewidth=linewidExt, NebLines=NebLines,  ExtremesFigSize=ExtremesFigSize, Panel=1)  
     print("kcount:", kcount)   
     if kcount==0:
         try:
@@ -373,7 +373,7 @@ def CalcDiffs(DisSpecVector, vrA, vrB,  waves, ObsSpecs, nusdata,  Orbital_Param
 # disentangle(Aini, vrads2, vrads1, waves)
 # Resid --> returns array of residual spectra between obs and dis1+dis2
 # Reduce --> Returns reduced chi2
-def disentangle(B, vrads1, vrads2,  waves, ObsSpecs, weights, StrictNeg, PosLimCond, Poslimall,  nusdata, Orbital_Params, K1s, K2s, MJDs, phis, specnames,  Rangestr, StarName, ScalingNeb, NebSpec, Resid=False, Reduce=False, ShowItr=False, Once=False,  InterKind='linear', itrnumlim=100, PLOTCONV=False, PLOTITR=False,   PLOTEXTREMES=False, PLOTFITS=False, kcount_extremeplot=0, linewidExt=3, CompNum=2, N_Iteration_Plot=50, NebLines = False, NebFac=1, kcount_usr=0):    
+def disentangle(B, vrads1, vrads2,  waves, ObsSpecs, weights, StrictNeg, PosLimCond, Poslimall,  nusdata, Orbital_Params, K1s, K2s, MJDs, phis, specnames,  Rangestr, StarName, ScalingNeb, NebSpec, Resid=False, Reduce=False, ShowItr=False, Once=False,  InterKind='linear', itrnumlim=100, PLOTCONV=False, PLOTITR=False,   PLOTEXTREMES=False, PLOTFITS=False, kcount_extremeplot=0, linewidExt=3, CompNum=2, N_Iteration_Plot=50, NebLines = False, NebFac=1, kcount_usr=0, ExtremesFigSize=(7,8)):    
     global kcount, k1, k2, DoFs, kcount, K1now, K2now
     StrictNegA, StrictNegB, StrictNegC, StrictNegD = StrictNeg
 # If convergence plot: allow spectra to be positive for sensible convergence plot:
@@ -471,14 +471,14 @@ def disentangle(B, vrads1, vrads2,  waves, ObsSpecs, weights, StrictNeg, PosLimC
             plt.xlabel('iteration number')
         plt.show()  
     DisSpecVector = np.array([A, B , NebSpec])
-    return DisSpecVector+1.,  CalcDiffs(DisSpecVector, vrads1,  vrads2,  waves, ObsSpecs, nusdata, Orbital_Params, K1s, K2s, MJDs, phis, specnames, Rangestr, StarName, ScalingNeb, Resid=Resid, Reduce=Reduce, ShowItr=ShowItr,   PLOTEXTREMES=PLOTEXTREMES, PLOTFITS=PLOTFITS, kcount_extremeplot=kcount_extremeplot,  linewidExt=linewidExt, CompNum=CompNum, NebLines = NebLines, NebFac=NebFac, kcount_usr=kcount_usr)    
+    return DisSpecVector+1.,  CalcDiffs(DisSpecVector, vrads1,  vrads2,  waves, ObsSpecs, nusdata, Orbital_Params, K1s, K2s, MJDs, phis, specnames, Rangestr, StarName, ScalingNeb, Resid=Resid, Reduce=Reduce, ShowItr=ShowItr,   PLOTEXTREMES=PLOTEXTREMES, PLOTFITS=PLOTFITS, kcount_extremeplot=kcount_extremeplot,  linewidExt=linewidExt, CompNum=CompNum, NebLines = NebLines, NebFac=NebFac, kcount_usr=kcount_usr, ExtremesFigSize=ExtremesFigSize)    
 
 
     
 # Assuming spectrum for secondary (Bini) and vrads1, gamma, and K1, explore K2s array for best-fitting K2
 # Ini = determines initial assumption for 0'th iteration
 # ShowItr = determines whether 
-def Grid_disentangling2D(waveRanges, nusdata, Bini, Orbital_Params, K1s, K2s,  ObsSpecs, weights, StrictNeg, PosLimCond, Poslimall,  MJDs, phis, specnames,  Rangestr, StarName, ScalingNeb, Ini=None, ShowItr=False,  InterKind='linear', itrnumlim = 100, NebOff=True, PLOTCONV=False, PLOTITR=False,   PLOTEXTREMES=False, PLOTFITS=False, kcount_extremeplot=0, linewidExt=3, CompNum=2, ParbSize=3, N_Iteration_Plot=50,  NebLines = False, NebFac=1, kcount_usr=0):
+def Grid_disentangling2D(waveRanges, nusdata, Bini, Orbital_Params, K1s, K2s,  ObsSpecs, weights, StrictNeg, PosLimCond, Poslimall,  MJDs, phis, specnames,  Rangestr, StarName, ScalingNeb, Ini=None, ShowItr=False,  InterKind='linear', itrnumlim = 100, NebOff=True, PLOTCONV=False, PLOTITR=False,   PLOTEXTREMES=False, PLOTFITS=False, kcount_extremeplot=0, linewidExt=3, CompNum=2, ParbSize=3, N_Iteration_Plot=50,  NebLines = False, NebFac=1, kcount_usr=0, ExtremesFigSize=(7,8)):
     global kcount, k1, k2, DoFs
     N = 0
     Diffs=np.zeros(len(K1s)*len(K2s)).reshape(len(K1s), len(K2s))  
@@ -495,14 +495,14 @@ def Grid_disentangling2D(waveRanges, nusdata, Bini, Orbital_Params, K1s, K2s,  O
                 if Ini=='A':
                     print("Initial guess provided for component " + Ini)      
                     #print Bini(waves)
-                    Diffs[k1,k2] += disentangle(Bini(waves), vrads2, vrads1,  waves, ObsSpecs, weights, StrictNeg, PosLimCond, Poslimall, nusdata, Orbital_Params_Updated, K1s, K2s, MJDs, phis, specnames, Rangestr, StarName,  ScalingNeb, NebSpec, InterKind=InterKind, itrnumlim = itrnumlim,  PLOTCONV=PLOTCONV, PLOTITR=PLOTITR,   PLOTEXTREMES=PLOTEXTREMES, PLOTFITS=PLOTFITS, kcount_extremeplot=kcount_extremeplot, linewidExt=linewidExt, CompNum=CompNum, N_Iteration_Plot=N_Iteration_Plot, NebLines = NebLines, NebFac=1, kcount_usr=kcount_usr)[-1]      
+                    Diffs[k1,k2] += disentangle(Bini(waves), vrads2, vrads1,  waves, ObsSpecs, weights, StrictNeg, PosLimCond, Poslimall, nusdata, Orbital_Params_Updated, K1s, K2s, MJDs, phis, specnames, Rangestr, StarName,  ScalingNeb, NebSpec, InterKind=InterKind, itrnumlim = itrnumlim,  PLOTCONV=PLOTCONV, PLOTITR=PLOTITR,   PLOTEXTREMES=PLOTEXTREMES, PLOTFITS=PLOTFITS, kcount_extremeplot=kcount_extremeplot, linewidExt=linewidExt, CompNum=CompNum, N_Iteration_Plot=N_Iteration_Plot, NebLines = NebLines, NebFac=1, kcount_usr=kcount_usr, ExtremesFigSize=ExtremesFigSize)[-1]      
                 elif Ini=='B':
                     print("Initial guess provided for component " + Ini)        
-                    Diffs[k1,k2] += disentangle(Bini(waves), vrads1, vrads2,  waves, ObsSpecs, weights, StrictNeg, PosLimCond, Poslimall, nusdata, Orbital_Params_Updated, K1s, K2s, MJDs, phis, specnames, Rangestr, StarName,  ScalingNeb, NebSpec, InterKind=InterKind, itrnumlim = itrnumlim,  PLOTCONV=PLOTCONV, PLOTITR=PLOTITR,   PLOTEXTREMES=PLOTEXTREMES, PLOTFITS=PLOTFITS, kcount_extremeplot=kcount_extremeplot, linewidExt=linewidExt, CompNum=CompNum, N_Iteration_Plot=N_Iteration_Plot, NebLines = NebLines, NebFac=1, kcount_usr=kcount_usr)[-1]              
+                    Diffs[k1,k2] += disentangle(Bini(waves), vrads1, vrads2,  waves, ObsSpecs, weights, StrictNeg, PosLimCond, Poslimall, nusdata, Orbital_Params_Updated, K1s, K2s, MJDs, phis, specnames, Rangestr, StarName,  ScalingNeb, NebSpec, InterKind=InterKind, itrnumlim = itrnumlim,  PLOTCONV=PLOTCONV, PLOTITR=PLOTITR,   PLOTEXTREMES=PLOTEXTREMES, PLOTFITS=PLOTFITS, kcount_extremeplot=kcount_extremeplot, linewidExt=linewidExt, CompNum=CompNum, N_Iteration_Plot=N_Iteration_Plot, NebLines = NebLines, NebFac=1, kcount_usr=kcount_usr, ExtremesFigSize=ExtremesFigSize)[-1]              
                 else:
                     print("No initial approximation given, assuming flat spectrum for secondary...")
                     Bini = interp1d(waves, np.ones(len(waves)),bounds_error=False, fill_value=1.)  
-                    Diffs[k1,k2] += disentangle(Bini(waves), vrads2, vrads1,  waves, ObsSpecs, weights, StrictNeg, PosLimCond, Poslimall, nusdata, Orbital_Params_Updated, K1s, K2s, MJDs, phis, specnames, Rangestr, StarName,  ScalingNeb, NebSpec, InterKind=InterKind, itrnumlim = itrnumlim,  PLOTCONV=PLOTCONV, PLOTITR=PLOTITR,   PLOTEXTREMES=PLOTEXTREMES, PLOTFITS=PLOTFITS, kcount_extremeplot=kcount_extremeplot, linewidExt=linewidExt, CompNum=CompNum, N_Iteration_Plot=N_Iteration_Plot, NebLines = NebLines, NebFac=1, kcount_usr=kcount_usr)[-1]         
+                    Diffs[k1,k2] += disentangle(Bini(waves), vrads2, vrads1,  waves, ObsSpecs, weights, StrictNeg, PosLimCond, Poslimall, nusdata, Orbital_Params_Updated, K1s, K2s, MJDs, phis, specnames, Rangestr, StarName,  ScalingNeb, NebSpec, InterKind=InterKind, itrnumlim = itrnumlim,  PLOTCONV=PLOTCONV, PLOTITR=PLOTITR,   PLOTEXTREMES=PLOTEXTREMES, PLOTFITS=PLOTFITS, kcount_extremeplot=kcount_extremeplot, linewidExt=linewidExt, CompNum=CompNum, N_Iteration_Plot=N_Iteration_Plot, NebLines = NebLines, NebFac=1, kcount_usr=kcount_usr, ExtremesFigSize=ExtremesFigSize)[-1]         
     Diffs /= (DoFs)  
     try:
         StepSize1 = K1s[1] - K1s[0]
