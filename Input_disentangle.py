@@ -100,14 +100,14 @@ S2Nred = 4165
 # Run grid disentangling? 
 # If TRUE: will conduct grid disentangling and derive Ks
 # If FALSE: will only peform separation using input K1,K2 
-GridDis = True
+GridDis = False
 
 # Define grid search (only important if GridDis = True). 
 # For setting K1, K2, K3, K4 search arrays: Karr = np.arange(IniFacK*K, FinFacK*K, Dense)
 # Current version only works for first two columns (K1, K2)
 # If DenseKArr[i] = 1, then the search is "1D", i.e. K is fixed to the value specified by the user.
 DenseKArr = [15, 15, 1, 1]
-IniFacKArr = [0., 0., .3, .3]
+IniFacKArr = [0.1, 0.1, .3, .3]
 FinFacKArr = [2., 2., 2., 2.]
 
 
@@ -121,13 +121,8 @@ FinFacKArr = [2., 2., 2., 2.]
 ###    after K1, K2 have been derived / set. Often, itrnumlim < NumItrFinal, for speed, and since individual iterations occur on individual lines.
 ### 3. See documentation for tips and insights about number of iterations.
 
-itrnumlim =100
+itrnumlim =50
 NumItrFinal = 1000
-
-# Plot two panels showing the fits at RV extremes. 
-# The plot is shown for the K1, K2 pair most closely matching (Velo_plot_usrK1_ext, Velo_plot_usrK2_ext) given by the user.
-# linewidExt is the line width of the curves plotted (often used for papers).
-# Recommended: True
 
 
 # If StrictNegA = True, enforce disentangled spectra to be below continuum except for prespecified regions (given in array).
@@ -204,8 +199,10 @@ Velo_plot_usrK1_ext =  Orbital_Params['K1']
 Velo_plot_usrK2_ext=  Orbital_Params['K2']
 Velo_plot_usrK3_ext=  Orbital_Params['K3']
 Velo_plot_usrK4_ext=  Orbital_Params['K4']
-linewidExt = 3
 
+# line width and figsize for "Extreme plots"
+linewidExt = 7
+ExtremesFigSize = (7, 7)
 
 
 
@@ -299,7 +296,7 @@ RangeHb = [4840, 4877.]
 RangeHg = [4310., 4370.]
 RangeHd = [4070, 4140.]
 RangeHeI5878 = [5869., 5881.]
-RangeHeI4472 = [4457., 4487.]
+RangeHeI4472 = [4458., 4489.]
 RangeHeI4144 = [4120., 4170.]
 RangeOIIIJulia = [7760., 7785.]
 RangeFe4584 = [4580, 4588]
