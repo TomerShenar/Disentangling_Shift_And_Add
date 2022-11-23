@@ -3,7 +3,7 @@
 
 shift-and-add & grid disentangling, written by Tomer Shenar, with contributions from Matthias Fabry & Julia Bodensteiner
 
-Algorithm, examples & tests in Gonzales & Levato 2006, A&A, 448, 283; Shenar et al. 2021, A&A, 639, 6; Shenar et al. 2022, A&A, 665, 148
+Algorithm, examples & tests in Gonzales & Levato 2006, A&A, 448, 283; Shenar et al. 2020, A&A, 639, 6; Shenar et al. 2022, A&A, 665, 148
 
 Current version only applicable for binaries. 
 
@@ -15,9 +15,9 @@ See "input file" for more documentation
 
 Coming up in upcoming version: Higher-order multiples and better handling of nebular contamination. 
 
-#############################################################################################################################
-                                                             Quick instructions
-#############################################################################################################################
+************************************************************************
+                                         Quick instructions
+************************************************************************
 
 To retrieve the files, make a folder in which you want to store the files and type:
 
@@ -58,16 +58,27 @@ sys
 
 8. After a successful execution of the script, an output directory will be created containing the disentangled spectra ADIS and BDIS. The names of the files code the K1, K2 pair for which the separation was performed, a few files documenting the chi2 arrays for K1, K2, and a few figures.
 
-#############################################################################################################################
-                                                                  Q&A
-#############################################################################################################################
+************************************************************************
+                                         Q & A
+************************************************************************
 
 
-Q. What is spectral disentangling?
+Q. What is spectral disentangling, and what is it good for?
 
 Spectral disentangling refers to the simultaneous derivation of orbital parameters of a spectroscopic multiple system and the separation of the composite spectra to the component spectra. 
 In general, the algorithm receives a set of N spectra, as returns as output the orbital parameters and the individual spectra of each component.
 More information, references, and documentation can be found here: http://sail.zpf.fer.hr/fdbinary/
+
+The technique has a few very powerful applications:
+
+1. It can be used to separate composite spectra and reduce a complicated binary analysis to the analysis of "single stars", with only the light ratio as a free parameter (see below).
+2. It can be used to derive orbital parameters, and specifically the RV semi-amplitudes K1 & K2, which can be hard to derive otherwise in heavily blended spectroscopic binaries.
+3. It effectively boosts the S/N by the square root of number of observations N, i.e. S/N --> mean(S/N) * sqrt(N). This allows the user to see things that are hidden in the data.
+
+I refer to some of my own projects to illustrate the power of this technique:
+1. Discovery of black holes: Shenar et al. 2022, A&A, 665, 148; Shenar et al. 2022, NatAs, 6, 1085
+2. Be binaries as black-hole imposters: Shenar et al. 2020, A&A, 639, 6; Bodensteiner et al. 2020, A&A, 641, 43
+3. Wolf-Rayet binaries: Shenar et al. 2019, A&A, 627, 151
 
 Q. What is the technique used here?
 
@@ -93,11 +104,13 @@ The algorithm is as follows:
 4. Repeat Nitr times until satisfied with convergence. Obtain final spectra A = A[Nitr] and B = B[Nitr]
 
 In general, however, not all orbital parameters are known. In this case, one can explore the agreement with the data for a given set of orbital parameters.
-For example, imagine we perform the separation for a set of orbital parameters O', and obtain A' and B' as disentangled spectra. We can compare the sum of A' and B' at each epoch to the observation, and compute the usual chi2 across all pixles and all observations. In principle, one may expect that the best results (minimum chi2) would be obtained for the correct orbital parameters.
+For example, imagine we perform the separation for a set of orbital parameters O', and obtain A' and B' as disentangled spectra. We can compare the sum of A' and B' at each epoch to the observation, and compute the usual chi2 across all pixles and all observations. One may expect that the best results (minimum chi2) would be obtained for the correct orbital parameters.
 
 In principle, the chi2 exploration could be performed on all orbital paramreters. However, for feasibility reasons, the script is limited to a K1, K2 exploration (i.e., RV semi-amplitudes). In almost all cases, the period, T0, eccentricity and omega can be well constrained by fitting a single-lined orbit to the primary.
 
 A minimization of chi2(K1, K2) enables the derivation of K1, K2 and their corresponding statistical errors. Once K1, K2 have been derived, the final separation can be performed.
+
+Q. How many spectra are needed for disentangling?
 
 Q. What about the light ratios?
 
