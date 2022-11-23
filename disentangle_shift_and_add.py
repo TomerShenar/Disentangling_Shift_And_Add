@@ -206,10 +206,10 @@ if NebLines:
 
 
 
-np.savetxt('Output/ADIS_lguess2_K1K2=' + str(lguess1) + '_' + str(Orbital_Params['K1']) + '_' +  str(Orbital_Params['K2']) + '.txt', np.c_[wavegridall, A])
-np.savetxt('Output/BDIS_lguess2_K1K2=' + str(lguess1) + '_' + str(Orbital_Params['K1']) + '_' + str(Orbital_Params['K2']) + '.txt', np.c_[wavegridall, B])
+np.savetxt('Output/ADIS_lguess2_K1K2=' + str(lguessVec[1]) + '_' + str(Orbital_Params['K1']) + '_' +  str(Orbital_Params['K2']) + '.txt', np.c_[wavegridall, A])
+np.savetxt('Output/BDIS_lguess2_K1K2=' + str(lguessVec[1]) + '_' + str(Orbital_Params['K1']) + '_' + str(Orbital_Params['K2']) + '.txt', np.c_[wavegridall, B])
 if NebLines:
-    np.savetxt('Output/NebDIS_lguess2_K1K2=' + str(lguess1) + '_' + str(Orbital_Params['K1']) + '_' + str(Orbital_Params['K2']) + '.txt', np.c_[wavegridall, NebSpec])
+    np.savetxt('Output/NebDIS_lguess2_K1K2=' + str(lguessVec[1]) + '_' + str(Orbital_Params['K1']) + '_' + str(Orbital_Params['K2']) + '.txt', np.c_[wavegridall, NebSpec])
 
 plt.legend()
 plt.show()
