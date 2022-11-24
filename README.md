@@ -26,7 +26,7 @@ git clone https://github.com/shtomer/Disentangling_Shift_And_Add.git
 The download includes:
 1. "disentangle_shift_and_add.py" is the main code that runs the script. It should not be editted unless you are an experienced user, except perhaps for the first part, where the spectra and dates are read, if needed.
 2. "Input_disentangle.py" is where the user inserts multiple options and parameters for the disentangling procedure. This script is documented and should be filled as instructed in the file.
-3. "disentangle_functions.py" contains the main functions used by the script. Do not edit unless you know what you're doing.
+3. "Disentangling/disentangle_functions.py" contains the main functions used by the script. Do not edit unless you know what you're doing.
 4. "make_spectra_SB2.py" is a small script that creates mock data of an hypothetical binary with prespecified templates, resolution & S/N (option: nebular contamination)
 5. "2DCont.py" reads a "chi2 output" from the "disentangle_shift_and_add.py" output and produces K1,K2 measurements and a 2D color map.
 6. "plot.py" is a helpful script to easily plot spectra (ascii/fits)
@@ -34,9 +34,9 @@ The download includes:
 
 Instructions:
 
-1. Place the file "disentangle_functions.py" in a directory in which they store typical python libraries in a directory called "Disentangling". For example, on my machine, this file is in: "/Users/tomer/Programs_and_packages/Disentangling/"
+1. Place the directory "Disentangling" (which contains "disentangle_functions.py") in a directory in which you store typical python libraries in a directory called "Disentangling". For example, on my machine, this file is stored in: "/Users/tomer/Programs_and_packages/Disentangling/"
 
-2. Add the line PYTHONPATH="/Users/tomer/Programmes_and_packages:$PYTHONPATH" in your .bashrc file in the home directory.
+2. For flexible running of the script: add the line PYTHONPATH="/Users/tomer/Programmes_and_packages:$PYTHONPATH" in your .bashrc file in the home directory.
 
 3. Place the "Input_disentangle.py" and "disentangle_shift_and_add.py" in a directory in which you want the analysis to be performed.
 
