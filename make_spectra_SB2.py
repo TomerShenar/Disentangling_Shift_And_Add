@@ -12,12 +12,10 @@ import math
 import sys
 from astropy.io import ascii
 from scipy.interpolate import interp1d
-import collections
 from scipy import stats  
 from scipy.signal import savgol_filter
 from scipy.optimize import curve_fit
 from scipy import asarray as ar,exp
-from scipy.misc import derivative
 import random
 from astropy.convolution import Gaussian1DKernel
 from astropy.convolution import convolve
