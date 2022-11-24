@@ -373,11 +373,9 @@ def read_ascii(infile, col0=0, col1=1):
     # assumes that first column is wave and second column is flux
     print("%s: Input file is an ascii file." % infile)
     #wave, flux = np.loadtxt(infile, usecols=(0, 1), unpack=True)
-    bla = (pd.read_csv(infile, header=None, delim_whitespace=True, comment='#')).values
-    #bla = np.loadtxt(infile)
-    ##print bla
-    wave = bla[:,col0]
-    flux = bla[:,col1]
+    spec = (pd.read_csv(infile, header=None, delim_whitespace=True, comment='#')).values
+    wave = spec[:,col0]
+    flux = spec[:,col1]
     return wave, flux
 
 
