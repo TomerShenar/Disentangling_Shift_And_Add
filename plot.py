@@ -1,4 +1,4 @@
-# Python plotting script; developed by Julia Bodensteiner & extended Tomer Shenar
+# Python plotting script; written by Julia Bodensteiner & extended Tomer Shenar
 # Type --legend for legend
 # Type --scatterr for scatter plot + errors
 # Other options exist, see script below...
