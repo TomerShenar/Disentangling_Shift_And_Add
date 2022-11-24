@@ -131,10 +131,10 @@ if len(K1s) > 1 and len(K2s) > 1:
     K1min = minind1
 
     fig, ax = plt.subplots()
-
+    plt.scatter(Chi2K2min, Chi2K1min, color='green')
     X, Y = np.meshgrid(K2s[indK2cut1:indK2cut2], K1s[indK1cut1:indK1cut2])
 
-    cs = plt.contourf(X, Y, Z[indK2cut1:indK2cut2, indK1cut1:indK1cut2], 200, cmap='inferno_r',  vmin=LimMin, vmax=LimMax)
+    cs = plt.contourf(X, Y, Z[indK2cut1:indK2cut2, indK1cut1:indK1cut2], 200, cmap='inferno_r',  vmin=LimMin, vmax=LimMax, zorder=-1)
 
     cont = ax.contour(X, Y, Z[indK2cut1:indK2cut2, indK1cut1:indK1cut2], [sigma], linewidths=2, linestyles='dashed', colors='green')
 
@@ -145,12 +145,11 @@ if len(K1s) > 1 and len(K2s) > 1:
 
 
 
-
     plt.xlabel(r'$K_2 [{\rm km}\,{\rm s}^{-1}]$')
     plt.ylabel(r'$K_1 [{\rm km}\,{\rm s}^{-1}]$')
     cbar = plt.colorbar()
     tickchi = np.arange(0.6, 1., 0.01)
     cbar.ax.set_ylabel(r'$\chi_{\rm reduced}^2$', size=12)
     plt.title(fileK1K2)
-    plt.savefig(fileK1K2[-4] + '_2Dmap.pdf')
+    plt.savefig(fileK1K2[:-4] + '_2Dmap.pdf', bbox_inches='tight')
     plt.show()
