@@ -172,9 +172,10 @@ for i in np.arange(specnum):
       MaskSums = (1-Q)*Maskshift1 + Q*Maskshift2 + NebFac*Mask3 
       #convoluted = convolve(MaskSums, kernel, normalize_kernel=True, boundary='extend')
       noiseobs = MaskSums + np.random.normal(0,sig, len(wavegrid))
-      obsname = 'obs/obs_' + str(i) +  "_V1_" + str(v1) + "_V2_" + str(v2)
-      np.savetxt(obsname, np.c_[wavegrid, noiseobs])
-      phasesfile.write(str(MJD) + ' '  + obsname + '\n')
+      ObsName = "obs_" + str(i) +  "_V1_" + str(v1) + "_V2_" + str(v2)
+      ObsPath = 'obs/' + ObsName
+      np.savetxt(ObsPath, np.c_[wavegrid, noiseobs])
+      phasesfile.write(str(MJD) + ' '  + ObsName + '\n')
       #if i==0:
           #np.savetxt('Observation_example.txt', np.c_[wavegrid, noiseobs])
 
