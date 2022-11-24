@@ -45,7 +45,8 @@ MJDHeader = 'MJD-OBS'
 ###############################
 
 
-#Number of components; possible up to four components
+#Number of components; currently possible only 2 components
+# up to four components in upcoming version
 CompNum = 2
 
 
