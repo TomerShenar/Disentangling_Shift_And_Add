@@ -21,8 +21,9 @@ ObsPath = 'obs/'
 ### assumes that the observations are in ascii format, each file containing 2-column tables of wave & normalised flux. 
 ### In addition, the observation directory MUST contain a file called 'ObsDat.txt', which has the following format:
 ###   MJD          obsname
-###   xxxx          PATH1
-###   yyy           PATH2
+###   xxxx          NAME1
+###   yyy           NAME2
+###   ...           ...
 ### The paths should be either absolute or relative to the directory in which the script is stored.
 ### OPTION 2: ObsFormat = 'FITS' 
 ### The script will look for ALL fits files in the given directory. 
