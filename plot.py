@@ -6,7 +6,6 @@
 
 
 import matplotlib.pyplot as plt
-#import julia_utils.input_output as inout
 import sys
 import numpy as np
 import astropy.io.fits as fits
@@ -14,7 +13,6 @@ from scipy import interpolate
 import sys
 from astropy.table import Table
 import pandas as pd
-import spectres
 
 def read_file(infile, col0=0, col1=1):
     ext = str(infile.split('.')[-1])
@@ -466,12 +464,7 @@ for i in range(len(sys.argv)-1):
             continue    
         if sys.argv[j] == '--scatterr':
             ScatterErr = True   
-            continue    
-        if sys.argv[j] == '--bin':
-            binsize = float(sys.argv[j+1])
-            Binning = True      
-            Skip = True
-            continue   
+            continue     
         if sys.argv[j] == '--cols':
             col0 = float(sys.argv[j+1])
             col1 = float(sys.argv[j+2])         
@@ -500,11 +493,6 @@ for i in range(len(sys.argv)-1):
     if Norm:
         flux /= np.mean(flux)
     # Do the plotting    
-    if Binning:
-        new_wavs = np.arange(wave_in[0], wave_in[-1], binsize)
-        new_flux = spectres.spectres(new_wavs, wave_in, flux_in, spec_errs=None, fill=None, verbose=True)
-        wave_in = np.copy(new_wavs)
-        flux = np.copy(new_flux)
     name = str(infile).split('.fits')[0]
     if ScatterErr:
         ax.errorbar(wave_in, flux, yerr=np.loadtxt(infile)[:,2], fmt='o', linewidth=1.0, alpha=0.8, label=name)
