@@ -238,7 +238,7 @@ N_Iteration_Plot = 100
 InterKind='linear'         
 
 # Region for fitting parabola of chi2 in index steps from minimum
-ParbSize=2
+ParbSize=3
 
 
 
