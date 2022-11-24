@@ -49,6 +49,7 @@ scipy
 pandas 
 matplotlib
 sys
+random
 
 5. Prepare a folder that contains all spectra for your object. The data could be in ASCII format or FITS format. If FITS, the script will attempt to read the dates from the .fits files. If ASCII, the script will require a file named ObsDat.txt listing the MJDs and file names in the observational data folder. For example, use the "make_spectra_SB2.py" to create such a folder with mock data.
 
