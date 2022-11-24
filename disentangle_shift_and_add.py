@@ -19,7 +19,7 @@ from Disentangling.disentangle_functions import *
 if ObsFormat=='TXT':
     PhaseFiles = ascii.read(ObsPath + 'ObsDat.txt')
     MJDs = PhaseFiles['MJD']
-    specnames = PhaseFiles['obsname']
+    specnames = np.array([ObsPath + el for el in PhaseFiles['obsname']])
 elif ObsFormat=='FITS':
     specnames = glob.glob(ObsPath+ '/*.fits')
     MJDs = np.array([])
