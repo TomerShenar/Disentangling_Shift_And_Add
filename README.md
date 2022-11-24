@@ -3,7 +3,7 @@
 
 shift-and-add & grid disentangling, written by Tomer Shenar, with contributions from Matthias Fabry & Julia Bodensteiner
 
-Algorithm described in Gonzales & Levato 2006, A&A, 448, 283; 
+Algorithm described in Gonzalez & Levato 2006, A&A, 448, 283; 
 
 Please cite Shenar et al. 2020, A&A, 639, 6; Shenar et al. 2022, A&A, 665, 148
 
