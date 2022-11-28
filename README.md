@@ -225,7 +225,7 @@ Disentangling becomes more challenging the more the lines are heavily blended. A
 Q. How can I know my results are sensible?
 ***
 
-Test, test, test! Try to simulate spectra corresponding to the case of interest, and see how well (or not) the method is able to retrieve the orbital parameters. This is the only way to know for sure whether you can trust the results. 
+Test, test, test! Try to simulate spectra corresponding to the case of interest, and see how well (or not) the method is able to retrieve the spectra and/or orbital parameters. This is the only way to know for sure whether you can trust the results. 
 
 
 
