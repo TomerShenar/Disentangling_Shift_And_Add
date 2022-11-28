@@ -144,6 +144,20 @@ Q. What about the light ratios?
 The light ratios determine the final scaling of the disentangled spectra. In principle, this information is not contained (mathematically) in the data; the technique cannot tell whether a star has "intrinsically weak lines" or whether it is diluted. Hence, the user needs to specify the light ratios, which are currently assumed constant throughout the wavelength domain. 
 Luckily, the light ratios only impact the final scaling of the spectra, and have no impact on the results of disentangling. They can therefore be separated from the problem of disentangling.
 
+To avoid re-running the script for different light ratio, the scaling can be performed by the user aposteriori through a simple manual scaling of the spectra. Let DisSpec(i)_old be the disentangled spectrum obtained for the light ratio l(i)_old for the i'th component (primary/secondary/tertiary...) assumed in the disentangled spectrum (i.e., f(i)/ftot = li_old), and let l(i)_new be the new ratio. Then the new re-scaled disentangled spectrum DisSpec(i)_new is given by:
+
+DisSpec(i)_new = [DisSpec(i)_old - 1] * l(i)_old / l(i)_new + 1.
+
+where it must hold that Sum( l(i) ) = 1.
+
+*Note that this needs to be done for all spectra*.
+
+Example: Suppose we disentangled a binary and assume l1 = 0.7 and l2 = 1-l1 = 0.3. But then we want to rescale the spectra to l1_new = 0.6 and l2_new=0.4. Let A_old & B_old be the disentangled spectra for the original scaling. Then:
+
+A_new = (A - 1) * 0.7/0.6 + 1. 
+B_new = (B - 1) * 0.3/0.4 + 1.
+
+
 ***
 Q. Do I disentangle specific lines or the entire spectrum?
 ***
