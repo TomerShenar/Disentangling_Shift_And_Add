@@ -130,12 +130,14 @@ For lower quality data (R down to 1-2K, S/N < ~50), typically at least 8-10 spec
 And of course: the more the merrier! 
 
 ***
-Why should I choose shift-and-add over other tools (e.g., fd3)?
+Why should I choose shift-and-add over other tools (e.g., fd3, KOREL)?
 ***
 
-The shift-and-add technique is a straight-forward algorithm that can be easily tested, controlled, and explored. It operates on wavelength space, and involves very clear assumptions. It is hence an attractive algorithm to work with.
+Various disentangling tools are available such as KOREL (https://stelweb.asu.cas.cz/vo-korel/ ; Hadrava 1995, A&AS, 114 ,393; not open source to the best of my knowledge) and fd3 (http://sail.zpf.fer.hr/fdbinary/; Ilijic, Hensberge & Pavlovski 2001, LNP, 573, 269; open source). 
 
-Importantly, multiple studies show that the techqniue yields robust results. We performed extensive comparisons between the shift-and-add algorithm and tools such as fd3 (e.g.,  Shenar et al. 2020, A&A, 639, 6; Bodensteiner et al. 2020, A&A, 641, 43). In most cases, we find highly comparable results, though in some cases, the shift-and-add technique appears to be more robust, at least in comparison to Fourier disentangling. However, the user is invited to compare and test various tools 
+The shift-and-add technique, implemented here, is a straight-forward algorithm that can be easily tested, controlled, and explored. It operates on wavelength space, and involves very clear assumptions. It is hence an attractive algorithm to experiment with.
+
+Importantly, multiple studies show that the techqniue yields robust results. We performed extensive comparisons between the shift-and-add algorithm and tools such as fd3 (e.g.,  Shenar et al. 2020, A&A, 639, 6). In most cases, we find highly comparable results, though in some cases, the shift-and-add technique appears to be more robust, at least in comparison to Fourier disentangling (e.g., Bodensteiner et al. 2020, A&A, 641, 43) However, the user is encouraged to test and test various tools avaialble "on the market" and perform their own comparisons.
 
 ***
 Q. What about the light ratios?
