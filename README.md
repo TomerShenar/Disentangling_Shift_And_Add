@@ -156,8 +156,9 @@ where it must hold that Sum( l(i) ) = 1.
 
 Example: Suppose we disentangled a binary and assume l1 = 0.7 and l2 = 1-l1 = 0.3. But then we want to rescale the spectra to l1_new = 0.6 and l2_new=0.4. Let A_old & B_old be the disentangled spectra for the original scaling. Then:
 
-A_new = (A - 1) * 0.7/0.6 + 1. 
-B_new = (B - 1) * 0.3/0.4 + 1.
+A_new = (A_old - 1) * 0.7/0.6 + 1
+
+B_new = (B_old - 1) * 0.3/0.4 + 1
 
 
 ***
