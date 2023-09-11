@@ -8,7 +8,6 @@ import numpy as np
 # # # # # # # Simple script to create "mock SB1/SB2" data  # # # # # # # 
 # Created by Tomer Shenar, T.Shenar@uva.nl; tomer.shenar@gmail.com
 
-import math
 import sys
 from astropy.io import ascii
 from scipy.interpolate import interp1d
@@ -28,8 +27,8 @@ from astropy.convolution import convolve
 
 #Orbit Pars:
 T0 = 0.
-P = 473.
-e = 0.5
+P = 18.
+e = 0.3
 omega = 60. * np.pi/180.
 K1 = 87.
 K2 = 135.
@@ -51,8 +50,8 @@ Q = 0.3
 specnum = 20
 
 # Mask path
-MaskPath = 'Models/G40000g400v10.vis.rectvmac30vsini200.dat'
-MaskPath2 = 'Models/BG27000g425v2.vis.rectvmac30vsini25.dat'
+MaskPath = '/Users/tomer/Desktop/Work/models/TLUSTY/G40000g400v10.vis.rectvmac30vsini200.dat'
+MaskPath2 = '/Users/tomer/Desktop/Work/models/TLUSTY/BG27000g475v2.vis.rectvmac30vsini25.dat'
 
 
 
@@ -170,10 +169,9 @@ for i in np.arange(specnum):
       MaskSums = (1-Q)*Maskshift1 + Q*Maskshift2 + NebFac*Mask3 
       #convoluted = convolve(MaskSums, kernel, normalize_kernel=True, boundary='extend')
       noiseobs = MaskSums + np.random.normal(0,sig, len(wavegrid))
-      ObsName = "obs_" + str(i) +  "_V1_" + str(v1) + "_V2_" + str(v2)
-      ObsPath = 'obs/' + ObsName
-      np.savetxt(ObsPath, np.c_[wavegrid, noiseobs])
-      phasesfile.write(str(MJD) + ' '  + ObsName + '\n')
+      obsname = 'obs/obs_' + str(i) +  "_V1_" + str(v1) + "_V2_" + str(v2)
+      np.savetxt(obsname, np.c_[wavegrid, noiseobs])
+      phasesfile.write(str(MJD) + ' '  + obsname + '\n')
       #if i==0:
           #np.savetxt('Observation_example.txt', np.c_[wavegrid, noiseobs])
 
