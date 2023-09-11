@@ -1,5 +1,5 @@
 # Disentangling_Shift_And_Add
-21.11.2022, V1.0;  contact: T.Shenar@uva.nl or tomer.shenar@gmail.com
+11.09.2023, V2.0;  contact: T.Shenar@uva.nl or tomer.shenar@gmail.com
 
 shift-and-add & grid disentangling, written by Tomer Shenar, with contributions from Matthias Fabry & Julia Bodensteiner
 
@@ -7,11 +7,13 @@ Algorithm described in Gonzalez & Levato 2006, A&A, 448, 283;
 
 Please cite Shenar et al. 2020, A&A, 639, 6; Shenar et al. 2022, A&A, 665, 148
 
-Current version only applicable for binaries. 
+UPDATE V2.0: treatment of triples
+
+Current version only applicable for binaries and triples (no quadruples)
 
 Input: input file and observed spectra.
 
-Output: chi2 map on K1,K2 plane (if requested) and separated (disentangled) component spectra, scaled by user-provided light ratio.
+Output: chi2 map on K1,K2,K3 plane (if requested) and separated (disentangled) component spectra, scaled by user-provided light ratios.
 
 See "input file" for more documentation
 
@@ -29,7 +31,7 @@ The download includes:
 1. "disentangle_shift_and_add.py" is the main code that runs the script. It should not be editted unless you are an experienced user, except perhaps for the first part, where the spectra and dates are read, if needed.
 2. "Input_disentangle.py" is where the user inserts multiple options and parameters for the disentangling procedure. This script is documented and should be filled as instructed in the file.
 3. "Disentangling/disentangle_functions.py" contains the main functions used by the script. Do not edit unless you know what you're doing.
-4. "make_spectra_SB2.py" is a small script that creates mock data of an hypothetical binary with prespecified templates, resolution & S/N (option: nebular contamination)
+4. "make_spectra_SB2.py" is a small script that creates mock data of an hypothetical binary with prespecified templates, resolution & S/N (option: nebular contamination); "make_spectra_SB3.py" is the equivalent for triples
 5. "2DCont.py" reads a "chi2 output" from the "disentangle_shift_and_add.py" output and produces K1,K2 measurements and a 2D color map.
 6. "plot.py" is a helpful script to easily plot spectra (ascii/fits)
 7. a "Models" directory with a few selected TLUSTY & PoWR models of OB and WR stars, and a HERMES observation of a Be star; for creating mock data.
