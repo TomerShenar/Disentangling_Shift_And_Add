@@ -1,5 +1,5 @@
 # shift-and-add & grid disentangling, by Tomer Shenar, with contributions from Matthias Fabry & Julia Bodensteiner
-# 21.11.2022, V1.0; feel free to contact at T.Shenar@uva.nl or tomer.shenar@gmail.com for questions/inquires
+# 11.09.2023, V2.0; feel free to contact at T.Shenar@uva.nl or tomer.shenar@gmail.com for questions/inquires
 # Algorithm and examples in Gonzales & Levato 2006, A&A, 448, 283; Shenar et al. 2021, A&A, 639, 6; Shenar et al. 2022, A&A, 665, 148
 # Function file
 
