@@ -48,7 +48,7 @@ MJDHeader = 'MJD-OBS'
 
 
 #Number of components; possible up to four components
-CompNum = 3
+CompNum = 2
 
 # Orbital parameters 
 ### P, T0, ecc, omega, and gamma cannot be derived with current version and are assumed by the user
