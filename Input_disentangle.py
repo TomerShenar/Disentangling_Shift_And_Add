@@ -2,6 +2,9 @@
 # 21.11.2022, V1.0; feel free to contact at T.Shenar@uva.nl or tomer.shenar@gmail.com for questions/inquires
 # Input file
 
+# INTRODUCE ROUND WHEN SAVING FILE NAMES!!!!
+
+
 import numpy as np
 
 
@@ -21,9 +24,8 @@ ObsPath = 'obs/'
 ### assumes that the observations are in ascii format, each file containing 2-column tables of wave & normalised flux. 
 ### In addition, the observation directory MUST contain a file called 'ObsDat.txt', which has the following format:
 ###   MJD          obsname
-###   xxxx          NAME1
-###   yyy           NAME2
-###   ...           ...
+###   xxxx          PATH1
+###   yyy           PATH2
 ### The paths should be either absolute or relative to the directory in which the script is stored.
 ### OPTION 2: ObsFormat = 'FITS' 
 ### The script will look for ALL fits files in the given directory. 
@@ -45,10 +47,8 @@ MJDHeader = 'MJD-OBS'
 ###############################
 
 
-#Number of components; currently possible only 2 components
-# up to four components in upcoming version
-CompNum = 2
-
+#Number of components; possible up to four components
+CompNum = 3
 
 # Orbital parameters 
 ### P, T0, ecc, omega, and gamma cannot be derived with current version and are assumed by the user
@@ -57,20 +57,20 @@ CompNum = 2
 ### If results don't make sense, your best bet is to set omega --> omega + pi
 Orbital_Params = {
 ####### MUST BE FILLED BELOW ALWAYS (inner binary) ######   
-    'Period': 473.,
+    'Period': 18,
     'T0': 0.,
-    'ecc': 0.5,
-    'omega': 60.,
+    'ecc': 0.3,
+    'omega': 60., #IN DEGREES!
     'Gamma': 0.,
     'K1': 87.,
     'K2': 135.  ,
 ####### Only for triples / quadruples: refers to outer orbit of companion/binary AROUND the inner binary ######       
 ####### IF outer period very long/negligible, set PeriodOut = 1E10 to neglect long-term motion     
-    'PeriodOut': 0.,
-    'T0Out' : 0.,
-    'eccOut' : 0.,
-    'omegaOut' : 0.,
-    'KOut' : 0.,
+    'PeriodOut': 200.,
+    'T0Out' : 34.,
+    'eccOut' : 0.3,
+    'omegaOut' : 160.,
+    'KOut' : 29.,
 ####### Only for Quadruples: refers to orbit of 2nd binary in the system  ######           
     'Period_2' : 0.,
     'T0_2' : 0.,
@@ -78,13 +78,19 @@ Orbital_Params = {
     'omega_2' : 0.,  
     'K3' : 0. ,
     'K4' : 0.}
-    
 
+
+
+# MUST INTRODUCE COMPNUM TO AVOID FUNNY RATIOS!
 # Vector of light ratios, [l2, l3, l4], i.e. flux_i / sum(flux). Assumed constant throughout range.
-lguessVec = [0.3, 0., 0.] 
+lguessVec = [0.3, 0.3, 0.] 
 
-    
-lguess1 = 1. - np.sum(lguessVec)
+if CompNum==2:    
+    lguess1 = 1.-lguessVec[0]
+elif CompNum==3:
+    lguess1 = 1. - lguessVec[0] - lguessVec[1]
+elif CompNum==4:
+    lguess1 = 1. - np.sum(np.array(lguessVec))
 
 
 
@@ -102,14 +108,14 @@ S2Nred = 4165
 # Run grid disentangling? 
 # If TRUE: will conduct grid disentangling and derive Ks
 # If FALSE: will only peform separation using input K1,K2 
-GridDis = False
+GridDis = True
 
 # Define grid search (only important if GridDis = True). 
 # For setting K1, K2, K3, K4 search arrays: Karr = np.arange(IniFacK*K, FinFacK*K, Dense)
 # Current version only works for first two columns (K1, K2)
 # If DenseKArr[i] = 1, then the search is "1D", i.e. K is fixed to the value specified by the user.
-DenseKArr = [15, 15, 1, 1]
-IniFacKArr = [0.1, 0.1, .3, .3]
+DenseKArr = [1, 1, 12, 1]
+IniFacKArr = [0.1, 0.1, 0.1, .3]
 FinFacKArr = [2., 2., 2., 2.]
 
 
@@ -123,7 +129,7 @@ FinFacKArr = [2., 2., 2., 2.]
 ###    after K1, K2 have been derived / set. Often, itrnumlim < NumItrFinal, for speed, and since individual iterations occur on individual lines.
 ### 3. See documentation for tips and insights about number of iterations.
 
-itrnumlim =50
+itrnumlim =30
 NumItrFinal = 1000
 
 
@@ -199,12 +205,12 @@ PosLimCondNeb = np.array([
 PLOTEXTREMES = True
 Velo_plot_usrK1_ext =  Orbital_Params['K1']
 Velo_plot_usrK2_ext=  Orbital_Params['K2']
-Velo_plot_usrK3_ext=  Orbital_Params['K3']
+Velo_plot_usrK3_ext=  Orbital_Params['KOut']
 Velo_plot_usrK4_ext=  Orbital_Params['K4']
 
 # line width and figsize for "Extreme plots"
 linewidExt = 7
-ExtremesFigSize = (7, 7)
+ExtremesFigSize = (10, 10)
 
 
 
@@ -216,7 +222,7 @@ ExtremesFigSize = (7, 7)
 PLOTFITS = False
 Velo_plot_usrK1 = Orbital_Params['K1']
 Velo_plot_usrK2 = Orbital_Params['K2']
-Velo_plot_usrK3 = Orbital_Params['K3']
+Velo_plot_usrK3 = Orbital_Params['KOut']
 Velo_plot_usrK4 = Orbital_Params['K4']
 
 # Plot convergence plot
@@ -238,7 +244,7 @@ N_Iteration_Plot = 100
 InterKind='linear'         
 
 # Region for fitting parabola of chi2 in index steps from minimum
-ParbSize=3
+ParbSize=2
 
 
 
@@ -298,7 +304,7 @@ RangeHb = [4840, 4877.]
 RangeHg = [4310., 4370.]
 RangeHd = [4070, 4140.]
 RangeHeI5878 = [5869., 5881.]
-RangeHeI4472 = [4457., 4489.]
+RangeHeI4472 = [4455., 4490.]
 RangeHeI4144 = [4120., 4170.]
 RangeOIIIJulia = [7760., 7785.]
 RangeFe4584 = [4580, 4588]
