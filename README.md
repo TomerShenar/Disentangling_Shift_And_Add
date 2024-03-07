@@ -1,5 +1,5 @@
 # Disentangling_Shift_And_Add
-11.09.2023, V2.0;  contact: T.Shenar@uva.nl or tomer.shenar@gmail.com
+11.09.2023, V2.0;  contact: tshenar@tau.ac.il or tomer.shenar@gmail.com
 
 shift-and-add & grid disentangling, written by Tomer Shenar, with contributions from Matthias Fabry & Julia Bodensteiner
 
